@@ -4,7 +4,7 @@ public class Player extends Units{
     private boolean dead;
     
     public Player(){
-    super(100, 800 , 300 , 5 , 5 , 20 , 50);
+    super(100, 800 ,225 , 5 , 5 , 20 , 50);
     gun = "pistol";
     money = 0;
     dead = false;
@@ -30,8 +30,6 @@ public class Player extends Units{
        if (health <= 0){
         dead = true;
        }
-        fill(255,0,0);
-        rect(getXCor(),getYCor(),getWidth(),getHeight());
     }
     
 }

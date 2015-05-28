@@ -4,7 +4,7 @@ PImage play;
 PImage bg;
 void setup(){
    background(255);
-   size(1000,600);
+   size(1000,450);
    player = new Player();
    play = loadImage("player.png");
    bg = loadImage("bg.png");
@@ -25,33 +25,48 @@ void draw(){
 
 public void processKeys(){
    if (isUp){
-     player.setYCor(player.getYCor()-player.getYSpeed());
+     if (player.getYCor() > 80){
+       player.setYCor(player.getYCor()-player.getYSpeed());
+     }
    } 
    if (isDown){
-     player.setYCor(player.getYCor()+player.getYSpeed());
+     if (player.getYCor() < 300){
+       player.setYCor(player.getYCor()+player.getYSpeed());
+     }
    } 
    if (isLeft){
-     player.setXCor(player.getXCor()-player.getXSpeed());
+     if (player.getXCor() > 800){
+       player.setXCor(player.getXCor()-player.getXSpeed());
+     }
    } 
    if (isRight){
+     if (player.getXCor() < 870){
      player.setXCor(player.getXCor()+player.getXSpeed());
+     }
    }    
 
 }
 
 void keyPressed(){
-   if (key == 119 || key == 87){
-      isUp = true; 
-   }
+  
+    if (key == 119 || key == 87)  {
+       isUp = true; 
+     }     
+   
     if (key == 97 || key == 65){
-      isLeft = true; 
-   }
-   if (key == 115 || key == 83) {
-      isDown = true; 
-   }
-   if (key == 100 || key == 68){
-      isRight = true; 
-   }   
+        isLeft = true; 
+    }
+   
+     if (key == 115 || key == 83) {
+        isDown = true; 
+     
+     }
+   
+     if (key == 100 || key == 68){
+
+        isRight = true; 
+     }   
+   
 }
 
 void keyReleased(){
@@ -68,4 +83,14 @@ void keyReleased(){
       isRight = false; 
    }   
 }
+
+boolean overRect(int x, int y, int width, int height)  {
+  if (mouseX >= x && mouseX <= x+width && 
+      mouseY >= y && mouseY <= y+height) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 
