@@ -1,4 +1,4 @@
-public class Unit
+public class Units
 {
   public int health;
   public int xcor;
@@ -8,15 +8,15 @@ public class Unit
   public int width;
   public int height;
 
-  public Unit() {}
-  public Unit(int health, int xcor, int ycor, int xspeed, int yspeed, int weight, int height)
+  public Units() {}
+  public Units(int health, int xcor, int ycor, int xspeed, int yspeed, int width, int height)
   {
     this.health = health;
     this.xcor = xcor;
     this.ycor = ycor;
     this.xspeed = xspeed;
     this.yspeed = yspeed;
-    this.width = weight;
+    this.width = width;
     this.height = height;    
   }  
   
@@ -29,10 +29,10 @@ public class Unit
   public int getYCor() { 
     return ycor;
   }
-  public int getXMove() { 
+  public int getXSpeed() { 
     return xspeed; 
   }
-  public int getYMove() { 
+  public int getYSpeed() { 
     return yspeed; 
   }
   public int getWidth() {
