@@ -1,13 +1,18 @@
 Player player;
+ArrayList<Bullets> bullets;
+boolean canShoot = true;
+float canShootCounter;
 boolean isUp, isDown, isLeft, isRight, isSpace, isSpaceReleased;
 PImage play;
 PImage bg;
+
 void setup(){
    background(255);
    size(1000,450);
    player = new Player();
    play = loadImage("player.png");
    bg = loadImage("bg.png");
+   bullets = new ArrayList<Bullets>();
                
 }
 
@@ -20,6 +25,33 @@ void draw(){
   image(play,player.getXCor(),player.getYCor());
   
   processKeys();
+  
+  for (Bullets b: bullets){
+     b.display(); 
+     b.setXCor(b.getXCor() + cos(b.getRotation()/180 * PI) * b.getXSpeed());
+     b.setYCor(b.getYCor() + sin(b.getRotation()/180 * PI) * b.getYSpeed());
+  }
+  
+  ArrayList<Bullets> removeBullets = new ArrayList<Bullets>();
+    for (Bullets b: bullets){
+      if ( ( (b.getXCor() > 1000) || (b.getXCor() < 0) ) ||
+        ( (b.getYCor() > 450) || (b.getYCor() < 0) )) {
+          
+        removeBullets.add(b);
+        }
+    }
+    
+    bullets.removeAll(removeBullets);
+
+    
+  
+
+  
+  if (mousePressed == true){
+     if (canShoot = true){
+        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 30 , 1));       
+     } 
+  }
   
 }
 
