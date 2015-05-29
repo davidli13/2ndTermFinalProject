@@ -10,7 +10,7 @@ void setup(){
    background(255);
    size(1000,450);
    player = new Player();
-   play = loadImage("player.png");
+   play = loadImage("gunguy.png");
    bg = loadImage("bg.png");
    bullets = new ArrayList<Bullets>();
    canShoot = false;               
