@@ -4,27 +4,37 @@ ArrayList<Enemy> enemy;
 boolean canShoot;
 float canShootCounter;
 boolean isUp, isDown, isLeft, isRight, isSpace, isSpaceReleased;
-int startTime, ticks;
+boolean reload;
 PImage play;
 PImage bg;
-
+int savedTime;
+int reloadTime = 5000;
 
 void setup(){
    background(255);
    size(1000,450);
+   frameRate(60);
    player = new Player();
    play = loadImage("gunguy.png");
    bg = loadImage("bg.png");
    bullets = new ArrayList<Bullets>();
    enemy = new ArrayList<Enemy>();
-   canShoot = false;       
-   startTime = millis()/1000;
-   ticks = startTime;   
+   canShoot = false;    
+   reload = false;
+   savedTime = millis();
+
+ 
 }
 
 void draw(){
   background(255);
   image(bg,0,0);
+  fill(255,0,0);
+  textSize(20);
+  text(player.getHealth() + "", 950, 405);
+  fill(255,255,0);
+  textSize(20);
+  text(player.getAmmo() + "", 950 , 435);
   if (player.getHealth() > 0){
         player.display(); 
   }
@@ -51,36 +61,48 @@ void draw(){
     
   for (Enemy e: enemy){
      e.display();
-     e.setXCor(e.getXCor() + e.getXSpeed());
-     e.setYCor(e.getYCor() + e.getYSpeed());      
+     if (e.getXCor()<= 720){
+       e.setXCor(e.getXCor() + e.getXSpeed());
+       e.setYCor(e.getYCor() + e.getYSpeed());  
+     }
+         
   }
    
   
   if (canShoot){
-     bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 30 , 1));       
-        canShoot = false;
+     bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 30 , 1));       
+     player.setAmmo(player.getAmmo()-1);
+     canShoot = false;
   } 
 
   if (millis() % 100 < 30){
      enemy.add(new Enemy()); 
   }
   
+  int passedTime = millis() - savedTime;
+  if (player.getAmmo() <= 0){
+      reload = true;      
+  }
+  
+  if (reload){
+     if (passedTime > reloadTime){
+        player.setAmmo(12);
+        reload = false;
+        savedTime = millis();
+     } 
+  }
+
+  
 }
 
-void timeIncrease(){
-   ticks = (millis()/1000) - startTime; 
+
+void mousePressed(){         
+    if (player.getAmmo() > 0){  
+      canShoot = true;
+    }
 }
 
-void mousePressed(){
-    canShoot = true;
-}
 
-
-void delay(int delay)
-{
-  int time = millis();
-  while(millis() - time <= delay);
-}
 
 public void processKeys(){
    if (isUp){

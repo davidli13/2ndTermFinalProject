@@ -68,7 +68,7 @@ public class Bullets{
   
   
   public void display(){
-        fill(255,255,0);
+        fill(150,150,0);
         noStroke();
         rect(getXCor(), getYCor(), getWidth(), getHeight());
      
