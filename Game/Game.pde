@@ -1,6 +1,6 @@
 Player player;
 ArrayList<Bullets> bullets;
-boolean canShoot = true;
+boolean canShoot;
 float canShootCounter;
 boolean isUp, isDown, isLeft, isRight, isSpace, isSpaceReleased;
 PImage play;
@@ -13,7 +13,7 @@ void setup(){
    play = loadImage("player.png");
    bg = loadImage("bg.png");
    bullets = new ArrayList<Bullets>();
-               
+   canShoot = false;               
 }
 
 void draw(){
@@ -47,12 +47,24 @@ void draw(){
   
 
   
-  if (mousePressed == true){
-     if (canShoot = true){
+     if (canShoot){
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 30 , 1));       
+        canShoot = false;
      } 
-  }
+
   
+  
+}
+
+void mousePressed(){
+    canShoot = true;
+}
+
+
+void delay(int delay)
+{
+  int time = millis();
+  while(millis() - time <= delay);
 }
 
 public void processKeys(){
