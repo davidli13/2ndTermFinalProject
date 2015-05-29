@@ -1,10 +1,13 @@
 Player player;
 ArrayList<Bullets> bullets;
+ArrayList<Enemy> enemy;
 boolean canShoot;
 float canShootCounter;
 boolean isUp, isDown, isLeft, isRight, isSpace, isSpaceReleased;
+int startTime, ticks;
 PImage play;
 PImage bg;
+
 
 void setup(){
    background(255);
@@ -13,7 +16,10 @@ void setup(){
    play = loadImage("gunguy.png");
    bg = loadImage("bg.png");
    bullets = new ArrayList<Bullets>();
-   canShoot = false;               
+   enemy = new ArrayList<Enemy>();
+   canShoot = false;       
+   startTime = millis()/1000;
+   ticks = startTime;   
 }
 
 void draw(){
@@ -42,18 +48,27 @@ void draw(){
     }
     
     bullets.removeAll(removeBullets);
-
     
+  for (Enemy e: enemy){
+     e.display();
+     e.setXCor(e.getXCor() + e.getXSpeed());
+     e.setYCor(e.getYCor() + e.getYSpeed());      
+  }
+   
   
-
-  
-     if (canShoot){
-        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 30 , 1));       
+  if (canShoot){
+     bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 30 , 1));       
         canShoot = false;
-     } 
+  } 
 
+  if (millis() % 100 < 30){
+     enemy.add(new Enemy()); 
+  }
   
-  
+}
+
+void timeIncrease(){
+   ticks = (millis()/1000) - startTime; 
 }
 
 void mousePressed(){
