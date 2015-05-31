@@ -4,7 +4,7 @@ public class Enemy extends Units{
    } 
    
    public void display(){
-      fill(255,0,255);
+      fill(0, 255, 0 );
       noStroke();
       rect(getXCor(),getYCor(),getWidth(),getHeight()); 
    }

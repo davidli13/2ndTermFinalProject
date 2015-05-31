@@ -95,12 +95,12 @@ void draw(){
    
   
   if (canShoot){
-     bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50, 30 , 2 ));       
+     bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));       
      player.setAmmo(player.getAmmo()-1);
      canShoot = false;
   } 
 
-  if (millis() % 100 < 5){
+  if (millis() % 100 < 3){
      enemy.add(new Enemy()); 
   }
   
@@ -136,17 +136,17 @@ public void processKeys(){
      }
    } 
    if (isDown){
-     if (player.getYCor() < 300){
+     if (player.getYCor() < 280){
        player.setYCor(player.getYCor()+player.getYSpeed());
      }
    } 
    if (isLeft){
-     if (player.getXCor() > 800){
+     if (player.getXCor() > 770){
        player.setXCor(player.getXCor()-player.getXSpeed());
      }
    } 
    if (isRight){
-     if (player.getXCor() < 870){
+     if (player.getXCor() < 830){
      player.setXCor(player.getXCor()+player.getXSpeed());
      }
    }    
