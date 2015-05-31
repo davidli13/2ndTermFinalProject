@@ -1,6 +1,6 @@
 public class Enemy extends Units{
    public Enemy(){
-      super( 10 , 0 , (int) random(250) + 100, 3 , 0, 20 , 50);             
+      super( 10 , 0 , (int) random(250) + 100, 1 , 0, 20 , 50);             
    } 
    
    public void display(){

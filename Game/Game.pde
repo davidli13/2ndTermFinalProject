@@ -48,34 +48,59 @@ void draw(){
      b.setYCor(b.getYCor() + sin(b.getRotation()/180 * PI) * b.getYSpeed());
   }
   
+// remove bullets out of screen  
   ArrayList<Bullets> removeBullets = new ArrayList<Bullets>();
     for (Bullets b: bullets){
       if ( ( (b.getXCor() > 1000) || (b.getXCor() < 0) ) ||
         ( (b.getYCor() > 450) || (b.getYCor() < 0) )) {
           
-        removeBullets.add(b);
-        }
+        removeBullets.add(b);         
+        }    
     }
+    bullets.removeAll(removeBullets); 
+  
+// remove bullets that hit enemy  
+  ArrayList<Bullets> removeBullets2 = new ArrayList<Bullets>();  
+    for (Enemy e: enemy){
+           for (Bullets b: bullets){
+              if ( ( ( b.getXCor() + (b.getWidth()/2) >= e.getXCor() ) && ( b.getXCor() + (b.getWidth()/2) <= e.getXCor() + e.getWidth())
+              && ( b.getYCor() + (b.getHeight() / 2) >= e.getYCor()) && ( b.getYCor() + ( b.getHeight()/2 ) <= e.getYCor() + e.getHeight()))){
+                 
+               e.setHealth(e.getHealth() - 10);
+               removeBullets2.add(b); 
+              }
+           }
+    }
+    bullets.removeAll(removeBullets2); 
+            
     
-    bullets.removeAll(removeBullets);
     
   for (Enemy e: enemy){
      e.display();
      if (e.getXCor()<= 720){
        e.setXCor(e.getXCor() + e.getXSpeed());
        e.setYCor(e.getYCor() + e.getYSpeed());  
-     }
-         
+     }         
   }
+  
+// Remove Dead enemies  
+  ArrayList<Enemy> removeEnemy = new ArrayList<Enemy>();
+  for (Enemy e: enemy){
+     if (e.getHealth() <= 0){
+        removeEnemy.add(e);
+        
+     }                  
+  }
+  enemy.removeAll(removeEnemy);
    
   
   if (canShoot){
-     bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 30 , 1));       
+     bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50, 30 , 2 ));       
      player.setAmmo(player.getAmmo()-1);
      canShoot = false;
   } 
 
-  if (millis() % 100 < 30){
+  if (millis() % 100 < 5){
      enemy.add(new Enemy()); 
   }
   
