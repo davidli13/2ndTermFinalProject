@@ -7,8 +7,9 @@ boolean isUp, isDown, isLeft, isRight, isSpace, isSpaceReleased;
 boolean reload;
 PImage play;
 PImage bg;
-int savedTime;
-int reloadTime = 5000;
+int savedReloadTime,reloadTime;
+boolean attack;
+int savedAttackTime,attackTime;
 
 void setup(){
    background(255);
@@ -21,7 +22,10 @@ void setup(){
    enemy = new ArrayList<Enemy>();
    canShoot = false;    
    reload = false;
-   savedTime = millis();
+   savedReloadTime = millis();
+   reloadTime = player.getReloadTime();
+   savedAttackTime = millis();
+   attackTime = 2000;
 
  
 }
@@ -59,14 +63,14 @@ void draw(){
     }
     bullets.removeAll(removeBullets); 
   
-// remove bullets that hit enemy  
+// remove bullets that hit enemy 
   ArrayList<Bullets> removeBullets2 = new ArrayList<Bullets>();  
     for (Enemy e: enemy){
            for (Bullets b: bullets){
               if ( ( ( b.getXCor() + (b.getWidth()/2) >= e.getXCor() ) && ( b.getXCor() + (b.getWidth()/2) <= e.getXCor() + e.getWidth())
               && ( b.getYCor() + (b.getHeight() / 2) >= e.getYCor()) && ( b.getYCor() + ( b.getHeight()/2 ) <= e.getYCor() + e.getHeight()))){
                  
-               e.setHealth(e.getHealth() - 10);
+               e.setHealth(e.getHealth() - player.getDamage());
                removeBullets2.add(b); 
               }
            }
@@ -80,8 +84,15 @@ void draw(){
      if (e.getXCor()<= 720){
        e.setXCor(e.getXCor() + e.getXSpeed());
        e.setYCor(e.getYCor() + e.getYSpeed());  
-     }         
+     }
+   if (e.getXCor() >= 720){
+         attack = true;    
+   }   
+  
   }
+          
+          
+          
   
 // Remove Dead enemies  
   ArrayList<Enemy> removeEnemy = new ArrayList<Enemy>();
@@ -95,16 +106,26 @@ void draw(){
    
   
   if (canShoot){
-     bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));       
-     player.setAmmo(player.getAmmo()-1);
-     canShoot = false;
+     if (player.getGun().equals("pistol")){
+       bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));       
+       player.setAmmo(player.getAmmo()-1);
+       canShoot = false;
+     }
+     if (player.getGun().equals("shotgun")){
+        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));       
+        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));       
+        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));     
+        player.setAmmo(player.getAmmo()-3);
+        canShoot = false;         
+     }
   } 
 
   if (millis() % 100 < 3){
      enemy.add(new Enemy()); 
   }
   
-  int passedTime = millis() - savedTime;
+//reload  
+  int passedTime = millis() - savedReloadTime;
   if (player.getAmmo() <= 0){
       reload = true;      
   }
@@ -113,12 +134,25 @@ void draw(){
      if (passedTime > reloadTime){
         player.setAmmo(12);
         reload = false;
-        savedTime = millis();
+        savedReloadTime = millis();
      } 
   }
+  
+//attack  
+  int passedTime2 = millis() - savedAttackTime;
+  
+  if (attack){
+      if( passedTime2 > attackTime ){
+        player.setHealth(player.getHealth() - getTotalDamage());
+        attack = false;
+        savedAttackTime = millis();    
+      }
+  }
+  
 
   
 }
+
 
 
 void mousePressed(){         
@@ -151,6 +185,17 @@ public void processKeys(){
      }
    }    
 
+}
+
+// total damage done to barricade
+public int getTotalDamage(){
+  int totalDamage = 0;  
+   for (Enemy e: enemy){
+      if (e.getXCor() >= 720){
+        totalDamage += e.getDamage(); 
+      }
+   }
+   return totalDamage;
 }
 
 void keyPressed(){

@@ -2,14 +2,27 @@ public class Player extends Units{
     private String gun;
     private int money;
     private boolean dead;
-    private int ammo;  
+    private int ammo;
+    private int damage;  
+    private int reloadTime;
+    private int accuracy;
     
     public Player(){
     super(100, 800 ,225 , 5 , 5 , 20 , 50);
     gun = "pistol";
     money = 0;
     dead = false;
-    ammo = 12;
+    if (gun.equals("pistol")){
+       damage = 5; 
+       ammo = 12;
+       reloadTime = 4000;
+    }
+    if (gun.equals("shotgun")){
+       damage = 5; 
+       ammo = 18;  
+       reloadTime = 5000;
+    }
+    
     }
     
     public String getGun(){
@@ -35,6 +48,15 @@ public class Player extends Units{
     public void setAmmo(int ammo){
        this.ammo = ammo; 
     }
+    
+    public int getDamage(){
+       return damage; 
+    }
+    
+    public int getReloadTime(){
+       return reloadTime; 
+    }
+    
     
     public void display(){
        if (health <= 0){

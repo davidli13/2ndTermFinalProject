@@ -10,7 +10,7 @@ public class Bullets{
     this.ySpeed = ySpeed;    
     this.width = width;
     this.height = height;
-    rotation = atan2(mouseY - (player.getYCor() + (player.getHeight()/2)) , mouseX - (player.getXCor() + (player.getWidth() / 2))) / PI * 180; 
+    rotation = atan2(mouseY - (player.getYCor() + (player.getHeight()/2)) + ((int) random(50) - 25) , mouseX - (player.getXCor() + (player.getWidth() / 2))) / PI * 180; 
   }
   
   public float getXCor(){
