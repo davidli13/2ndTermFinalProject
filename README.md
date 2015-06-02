@@ -23,3 +23,10 @@ The Last Stand (clone) - Zombie tower defense using guns
 -started enemy spawn
 -started reload
 -displays health and ammo
+
+6/30
+-reload system adjusted
+
+6/2/15
+- Accuracy to guns
+- zombies now attack barricade
