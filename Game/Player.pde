@@ -22,7 +22,27 @@ public class Player extends Units{
        ammo = 18;  
        reloadTime = 5000;
     }
-    
+    if (gun.equals("smg")){
+       damage = 3;
+       ammo = 30;
+       reloadTime = 3000; 
+    }
+    if (gun.equals("sniperRifle")){
+       damage = 15;
+       ammo = 8 ;
+       reloadTime = 6000;
+    }
+    if (gun.equals("assualtRifle")){
+       damage = 8;
+       ammo = 20;
+       reloadTime = 5000; 
+    }
+    if (gun.equals("minigun")){
+       damage = 5;
+       ammo = 100;
+       reloadTime = 8000; 
+    }
+        
     }
     
     public String getGun(){

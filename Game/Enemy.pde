@@ -4,7 +4,7 @@ public class Enemy extends Units{
    private boolean attacking;
    
    public Enemy(){
-      super( 10 , 0 , (int) random(250) + 100, 1 , 0, 20 , 50);
+      super( 10 , 0 , (int) random(250) + 100, 1 , 0, 35 , 90);
       damage = 1;
       savedAttackTime = millis();
       attackTime = 2000;

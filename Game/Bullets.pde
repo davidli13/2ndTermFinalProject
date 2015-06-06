@@ -1,7 +1,7 @@
 public class Bullets{
   float xCor, yCor, rotation;
   int xSpeed, ySpeed, width, height;
-
+  
   
   public Bullets(int XCor, int YCor, int xSpeed, int ySpeed, int width, int height){
     this.xCor = float(XCor);
@@ -71,6 +71,7 @@ public class Bullets{
         fill(150,150,0);
         noStroke();
         rect(getXCor(), getYCor(), getWidth(), getHeight());
+
      
   }
 

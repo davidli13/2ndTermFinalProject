@@ -9,12 +9,13 @@ PImage play;
 PImage bg;
 int savedReloadTime,reloadTime;
 boolean attack;
-int savedAttackTime,attackTime;
+boolean fired;
 
 void setup(){
    background(255);
    size(1000,450);
    frameRate(60);
+   noCursor();
    player = new Player();
    play = loadImage("gunguy.png");
    bg = loadImage("bg.png");
@@ -22,10 +23,10 @@ void setup(){
    enemy = new ArrayList<Enemy>();
    canShoot = false;    
    reload = false;
+   fired = false;
    savedReloadTime = millis();
    reloadTime = player.getReloadTime();
-   savedAttackTime = millis();
-   attackTime = 2000;
+
 
  
 }
@@ -34,7 +35,7 @@ void draw(){
   background(255);
   image(bg,0,0);
   fill(255,0,0);
-  textSize(20);
+  textSize(20);    
   text(player.getHealth() + "", 950, 405);
   fill(255,255,0);
   textSize(20);
@@ -43,6 +44,17 @@ void draw(){
         player.display(); 
   }
   image(play,player.getXCor(),player.getYCor());
+  
+  if (!reload) {
+      fill(0);
+    }else {
+      fill(255,0,0); 
+    }
+  rect(mouseX - 1 , mouseY - 20, 1 , 15);
+  rect(mouseX - 1 , mouseY + 5, 1 , 15);
+  rect(mouseX - 20 , mouseY , 15 , 1); 
+  rect(mouseX + 5 , mouseY , 15 , 1);   
+  
   
   processKeys();
   
@@ -107,17 +119,38 @@ void draw(){
   
   if (canShoot){
      if (player.getGun().equals("pistol")){
-       bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));       
+       bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 40 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
        canShoot = false;
      }
      if (player.getGun().equals("shotgun")){
-        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));       
-        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));       
-        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 40 , 1 ));     
+        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
+        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
+        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));     
         player.setAmmo(player.getAmmo()-3);
         canShoot = false;         
      }
+     if (player.getGun().equals("smg")){
+       bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 20 , 1 ));       
+       player.setAmmo(player.getAmmo()-1);
+       canShoot = false;       
+     }
+     if (player.getGun().equals("sniperRifle")){
+       bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 60 , 2 ));       
+       player.setAmmo(player.getAmmo()-1);
+       canShoot = false;       
+     }     
+     if (player.getGun().equals("assaultRifle")){
+       bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 ,40 , 40 , 2 ));       
+       player.setAmmo(player.getAmmo()-1);
+       canShoot = false;       
+     }
+     if (player.getGun().equals("minigun")){
+       bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 60 , 1 ));       
+       player.setAmmo(player.getAmmo()-1);
+       canShoot = false;       
+     }     
+     
   } 
 
   if (millis() % 100 < 3){
@@ -138,7 +171,7 @@ void draw(){
      } 
   }
   
-//attack  
+//zombie attacks barricade  
   for (Enemy e: enemy){  
     if (e.attacking){
           int passedTime2 = millis() - e.getSavedAttackTime();
@@ -151,6 +184,21 @@ void draw(){
   }
   
 
+
+//Cursor
+  translate(mouseX, mouseY);
+  for( float a = 0; a < 360; a+=1){
+    pushMatrix();
+    rotate( radians(a) );
+    if (!reload) {
+      fill(0);
+    }else {
+      fill(255,0,0); 
+    }
+    ellipse( 10,0,2,2);
+    popMatrix();
+  }
+  
   
 }
 
