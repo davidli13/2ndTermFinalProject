@@ -86,7 +86,7 @@ void draw(){
        e.setYCor(e.getYCor() + e.getYSpeed());  
      }
    if (e.getXCor() >= 720){
-         attack = true;    
+         e.attacking = true;    
    }   
   
   }
@@ -139,14 +139,15 @@ void draw(){
   }
   
 //attack  
-  int passedTime2 = millis() - savedAttackTime;
-  
-  if (attack){
-      if( passedTime2 > attackTime ){
-        player.setHealth(player.getHealth() - getTotalDamage());
-        attack = false;
-        savedAttackTime = millis();    
-      }
+  for (Enemy e: enemy){  
+    if (e.attacking){
+          int passedTime2 = millis() - e.getSavedAttackTime();
+        if( passedTime2 > e.getAttackTime() ){
+          player.setHealth(player.getHealth() - e.getDamage());
+          e.attacking = false;
+          e.setSavedAttackTime(millis());    
+        }
+    }
   }
   
 
@@ -156,7 +157,7 @@ void draw(){
 
 
 void mousePressed(){         
-    if (player.getAmmo() > 0){  
+    if (player.getAmmo() > 0 && reload == false){  
       canShoot = true;
     }
 }
@@ -217,6 +218,11 @@ void keyPressed(){
 
         isRight = true; 
      }   
+     
+     
+     if (key == 82){
+        reload = true; 
+     }
    
 }
 
