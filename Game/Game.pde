@@ -5,17 +5,17 @@ boolean canShoot;
 float canShootCounter;
 boolean isUp, isDown, isLeft, isRight, isSpace, isSpaceReleased;
 boolean reload;
-PImage play;
-PImage bg;
+PImage play, smg, shotgun, sniperRifle, assaultRifle, minigun;
+PImage bg, shop;
+boolean inShop, inRound;
 int savedReloadTime,reloadTime;
 boolean attack;
-boolean fired;
+boolean show1, show2, show3, show4, show5;
 
 void setup(){
    background(255);
    size(1000,450);
    frameRate(60);
-   noCursor();
    player = new Player();
    play = loadImage("gunguy.png");
    bg = loadImage("bg.png");
@@ -23,15 +23,172 @@ void setup(){
    enemy = new ArrayList<Enemy>();
    canShoot = false;    
    reload = false;
-   fired = false;
-   savedReloadTime = millis();
+   savedReloadTime = 0;
    reloadTime = player.getReloadTime();
-
+   smg = loadImage("smg.png");
+   shotgun = loadImage("shotgun.png");
+   sniperRifle = loadImage("sniperrifle.png");
+   assaultRifle = loadImage("assaultrifle.png");
+   minigun = loadImage("minigun.png");   
+   shop = loadImage("shop.png"); 
+   inShop = false;
+   inRound = true;
 
  
 }
 
 void draw(){
+  
+// shop mode  
+  if (inShop){
+   background(255);
+   image(shop,0,0);
+   fill(0,255,0);  
+   image(smg,0,0); 
+   text("$100",150, 50);
+   image(shotgun,0,90);
+   text("$500",150, 130);   
+   image(sniperRifle,0,180);
+   text("$1000",150, 220);       
+   image(assaultRifle,0,265);
+   text("$2000",150, 310);    
+   image(minigun,0,350); 
+   text("$5000",150, 400);  
+
+
+   
+   textSize(25);
+   fill(255,255,0);
+   text("Damage :", 400, 50);
+   text("Clip Size :", 400, 150);
+   text("Shots/sec :" , 400, 250);
+   text("Reload Time :" , 400, 350);
+
+    textSize(40); 
+    fill(50,255,50);
+    text("$"+player.getMoney(), 740, 50);
+
+   
+   textSize(25);
+   fill(255,255,0);
+   if (overRect(0,0,130, 70) && mousePressed){
+     show1 = true; show2= false; show3 = false; show4 = false; show5 = false;
+   } 
+   if (show1){
+     text("3" , 530, 50);
+     text("30" , 540, 150);
+     text("5" , 560, 250);
+     text("5.00" , 590, 350);  
+   }
+
+   if (overRect(0,90,130,70) && mousePressed){
+     show1 = false; show2= true; show3 = false; show4 = false; show5 = false;
+   } 
+   if (show2){
+     text("5" , 530, 50);
+     text("18" , 540, 150);
+     text("1" , 560, 250);
+     text("5.00" , 590, 350);  
+   }  
+   
+   if (overRect(0,180,130,70) && mousePressed){
+     show1 = false; show2= false; show3 = true; show4 = false; show5 = false;
+   } 
+   if (show3){
+     text("10" , 530, 50);
+     text("8" , 540, 150);
+     text("2" , 560, 250);
+     text("6.00" , 590, 350);  
+   }    
+  
+   if (overRect(0,265,130,70) && mousePressed){
+     show1 = false; show2= false; show3 = false; show4 = true; show5 = false;
+   } 
+   if (show4){
+     text("8" , 530, 50);
+     text("20" , 540, 150);
+     text("3" , 560, 250);
+     text("5.00" , 590, 350);  
+   }
+  
+   if (overRect(0,310,130,70) && mousePressed){
+     show1 = false; show2= false; show3 = false; show4 = false; show5 = true;
+   } 
+   if (show5){
+     text("5" , 530, 50);
+     text("200" , 540, 150);
+     text("6" , 560, 250);
+     text("8.00" , 590, 350);  
+   }   
+   
+
+   textSize(30);
+   fill(255,100,100);
+   text("Purchase", 750, 150);
+   textSize(30);
+   fill(255,255,255);
+   text("Proceed", 860 , 420);
+   
+   if (overRect(740, 120, 140, 50) && show1 == true && mousePressed){
+      if (player.getMoney() >= 100){
+        player.setMoney(player.getMoney() - 100);
+        player.setGun("smg");
+      } 
+   }
+   if (overRect(740, 120, 140, 50) && show2 == true && mousePressed){
+      if (player.getMoney() >= 500){
+        player.setMoney(player.getMoney() - 500);
+        player.setGun("shotgun");
+      } 
+   }
+   if (overRect(740, 120, 140, 50) && show3 == true && mousePressed){
+      if (player.getMoney() >= 1000){
+        player.setMoney(player.getMoney() - 1000);
+        player.setGun("sniperRifle");
+      } 
+   }
+   if (overRect(740, 120, 140, 50) && show4 == true && mousePressed){
+      if (player.getMoney() >= 2000){
+        player.setMoney(player.getMoney() - 2000);
+        player.setGun("assaultRifle");
+      } 
+   }
+   if (overRect(740, 120, 140, 50) && show5 == true && mousePressed){
+      if (player.getMoney() >= 5000){
+        player.setMoney(player.getMoney() - 5000);
+        player.setGun("minigun");
+      } 
+   }  
+  
+  
+  fill(100,100,255);
+  textSize(20);
+  if (player.getGun().equals("smg")){
+     text("equipped", 250 , 50);
+  } else if (player.getGun().equals("shotgun")){
+     text("equipped", 250 , 130);      
+  } else if (player.getGun().equals("sniperRifle")){
+     text("equipped", 250 , 220);      
+  } else if (player.getGun().equals("assaultRifle")){
+     text("equipped", 250 , 310);      
+  } else if (player.getGun().equals("minigun")){
+     text("equipped", 250 , 400);      
+  }
+  
+  
+  if (overRect(860,390, 130, 150) && mousePressed){
+     inShop = false;
+     inRound = true;
+     
+  }
+
+
+  }
+  
+  
+//game mode  
+  if (inRound){
+  noCursor();
   background(255);
   image(bg,0,0);
   fill(255,0,0);
@@ -158,17 +315,18 @@ void draw(){
   }
   
 //reload  
-  int passedTime = millis() - savedReloadTime;
+  int passedTime = 0;
   if (player.getAmmo() <= 0){
-      reload = true;      
+      reload = true;           
   }
   
   if (reload){
+        passedTime = millis() - savedReloadTime;   
      if (passedTime > reloadTime){
         player.setAmmo(12);
+        savedReloadTime = millis();        
         reload = false;
-        savedReloadTime = millis();
-     } 
+     }
   }
   
 //zombie attacks barricade  
@@ -200,6 +358,7 @@ void draw(){
   }
   
   
+  }
 }
 
 

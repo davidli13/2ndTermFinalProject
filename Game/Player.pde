@@ -10,7 +10,7 @@ public class Player extends Units{
     public Player(){
     super(100, 800 ,225 , 5 , 5 , 20 , 50);
     gun = "pistol";
-    money = 0;
+    money = 1000;
     dead = false;
     if (gun.equals("pistol")){
        damage = 5; 
@@ -39,7 +39,7 @@ public class Player extends Units{
     }
     if (gun.equals("minigun")){
        damage = 5;
-       ammo = 100;
+       ammo = 200;
        reloadTime = 8000; 
     }
         
