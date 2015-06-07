@@ -1,3 +1,4 @@
+import ddf.minim.*;
 Player player;
 ArrayList<Bullets> bullets;
 ArrayList<Enemy> enemy;
@@ -12,7 +13,8 @@ int savedReloadTime,reloadTime;
 int shootDelay;
 boolean attack;
 boolean show1, show2, show3, show4, show5;
-
+Minim minim;
+AudioPlayer gunshot;
 void setup(){
    background(255);
    size(1000,450);
@@ -35,8 +37,8 @@ void setup(){
    shop = loadImage("shop.png"); 
    inShop = false;
    inRound = true;
-
- 
+   minim = new Minim(this);
+   gunshot = minim.loadFile("shot_pistol.mp3");
 }
 
 void draw(){
@@ -275,30 +277,42 @@ void draw(){
   }
   enemy.removeAll(removeEnemy);
    
-  
   if (mousePressed == true){
-     shootDelay -= 1;
+     shootDelay -= 1; 
+     //60 = 1 second;
   }
-  print(shootDelay + "\n");
+  //print(shootDelay + "\n");
   
+  print(player.getGun() + "\n");
   if (shootDelay == 0){
      if (player.getGun().equals("pistol")){
-       shootDelay = 20;
+       shootDelay = 30;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 40 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
        canShoot = false;
+       gunshot = minim.loadFile("shot_pistol.mp3");
+       gunshot.play();
+       gunshot.rewind();
      }
      if (player.getGun().equals("shotgun")){
+        shootDelay = 60;
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));     
         player.setAmmo(player.getAmmo()-3);
-        canShoot = false;         
+        canShoot = false;    
+         gunshot = minim.loadFile("shot_shotgun.mp3");
+         gunshot.play();
+         gunshot.rewind();     
      }
      if (player.getGun().equals("smg")){
+       shootDelay = 15;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 20 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
-       canShoot = false;       
+       canShoot = false;   
+       gunshot = minim.loadFile("shot_smg.mp3");
+         gunshot.play();
+         gunshot.rewind();     
      }
      if (player.getGun().equals("sniperRifle")){
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 60 , 2 ));       
@@ -324,8 +338,9 @@ void draw(){
   
 //reload  
   int passedTime = 0;
-  if (player.getAmmo() <= 0){
-      reload = true;           
+  if (player.getAmmo() <= 0){    
+      shootDelay = 99999; 
+      reload = true;     
   }
   
   if (reload){
@@ -334,6 +349,7 @@ void draw(){
         player.setAmmo(12);
         savedReloadTime = millis();        
         reload = false;
+        shootDelay = 1;
      }
   }
   
@@ -415,7 +431,7 @@ public int getTotalDamage(){
 }
 
 void keyPressed(){
-  
+    //print(keyCode);
     if (key == 119 || key == 87)  {
        isUp = true; 
      }     
@@ -426,17 +442,24 @@ void keyPressed(){
    
      if (key == 115 || key == 83) {
         isDown = true; 
-     
      }
    
      if (key == 100 || key == 68){
-
         isRight = true; 
      }   
      
      
      if (key == 82){
         reload = true; 
+     }
+     if (key == 49){
+       player.setGun("pistol");
+     }
+     if (key == 50){
+       player.setGun("shotgun");
+     }
+     if (key == 51){
+       player.setGun("smg");
      }
    
 }

@@ -2,13 +2,15 @@ public class Enemy extends Units{
    private int damage;
    private int savedAttackTime, attackTime;
    private boolean attacking;
+   private int switchDelay;
    PImage z;
    public Enemy(){
-      super( 10 , 0 , (int) random(250) + 100, 1 , 0, 35 , 90);
+      super( 10 , 0 , (int) random(250) + 100, 1 , 0, 45 , 60);
       damage = 1;
       savedAttackTime = millis();
       attackTime = 2000;
-      z = loadImage("z1.png");
+      switchDelay = 79;
+      z = loadImage("z0.png");
    }      
    
    public int getDamage(){
@@ -30,7 +32,12 @@ public class Enemy extends Units{
    
    
    public void display(){
-      fill(0, 255, 0 );
+      switchDelay -= 1;
+      z = loadImage("z" + (switchDelay / 20) + ".png");
+      if (switchDelay == 0){
+        switchDelay = 79;
+      }
+      fill(0, 255, 0, 0);
       noStroke();
       rect(getXCor(),getYCor(),getWidth(),getHeight()); 
       image(z,getXCor(),getYCor());
