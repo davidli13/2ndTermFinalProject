@@ -30,3 +30,7 @@ The Last Stand (clone) - Zombie tower defense using guns
 6/2/15
 - Accuracy to guns
 - zombies now attack barricade
+
+6/6/15
+- fixed zombie attacking barricade
+- added zombie attack cooldowns
