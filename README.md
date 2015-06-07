@@ -34,3 +34,10 @@ The Last Stand (clone) - Zombie tower defense using guns
 6/6/15
 - fixed zombie attacking barricade
 - added zombie attack cooldowns
+
+
+6/7/15
+- hold to shoot with delay
+- different gun rate of fire
+- zombie walking animations
+- gunfire sounds
