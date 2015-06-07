@@ -9,6 +9,7 @@ PImage play, smg, shotgun, sniperRifle, assaultRifle, minigun;
 PImage bg, shop;
 boolean inShop, inRound;
 int savedReloadTime,reloadTime;
+int shootDelay;
 boolean attack;
 boolean show1, show2, show3, show4, show5;
 
@@ -24,6 +25,7 @@ void setup(){
    canShoot = false;    
    reload = false;
    savedReloadTime = 0;
+   shootDelay = 1;
    reloadTime = player.getReloadTime();
    smg = loadImage("smg.png");
    shotgun = loadImage("shotgun.png");
@@ -274,8 +276,14 @@ void draw(){
   enemy.removeAll(removeEnemy);
    
   
-  if (canShoot){
+  if (mousePressed == true){
+     shootDelay -= 1;
+  }
+  print(shootDelay + "\n");
+  
+  if (shootDelay == 0){
      if (player.getGun().equals("pistol")){
+       shootDelay = 20;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 40 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
        canShoot = false;
