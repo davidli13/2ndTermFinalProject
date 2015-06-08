@@ -37,6 +37,7 @@ The Last Stand (clone) - Zombie tower defense using guns
 
 
 6/7/15
+- started shop
 - hold to shoot with delay
 - different gun rate of fire
 - zombie walking animations
