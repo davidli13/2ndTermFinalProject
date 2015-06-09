@@ -8,13 +8,16 @@ boolean isUp, isDown, isLeft, isRight, isSpace, isSpaceReleased;
 boolean reload;
 PImage play, smg, shotgun, sniperRifle, assaultRifle, minigun;
 PImage bg, shop;
+PImage deadZ;
 boolean inShop, inRound;
 int savedReloadTime,reloadTime;
 int shootDelay;
 boolean attack;
 boolean show1, show2, show3, show4, show5;
 Minim minim;
-AudioPlayer gunshot;
+AudioPlayer gunshot1, gunshot2, gunshot3;
+int deadTimer;
+PImage deadz;
 void setup(){
    background(255);
    size(1000,450);
@@ -38,7 +41,11 @@ void setup(){
    inShop = false;
    inRound = true;
    minim = new Minim(this);
-   gunshot = minim.loadFile("shot_pistol.mp3");
+   gunshot1 = minim.loadFile("shot_pistol.mp3");
+   gunshot2 = minim.loadFile("shot_shotgun.mp3");
+   gunshot3 = minim.loadFile("shot_smg.mp3");
+   deadTimer = 179;
+   deadz = loadImage("d0.png");
 }
 
 void draw(){
@@ -273,6 +280,11 @@ void draw(){
      if (e.getHealth() <= 0){
         removeEnemy.add(e);
         
+        /*if (deadTimer > 0){
+          deadTimer -= 1;
+          deadz = loadImage("d" + (deadTimer / 30) + ".png");
+          image(deadz, e.getXCor(), e.getYCor());
+        }*/        
      }                  
   }
   enemy.removeAll(removeEnemy);
@@ -282,17 +294,26 @@ void draw(){
      //60 = 1 second;
   }
   //print(shootDelay + "\n");
+  //print(player.getGun() + "\n");
   
-  print(player.getGun() + "\n");
+  /*if (player.getGun().equals("pistol")){
+    gunshot = minim.loadFile("shot_pistol.mp3");
+  }
+  if (player.getGun().equals("shotgun")){
+    gunshot = minim.loadFile("shot_shotgun.mp3");
+  }
+  if (player.getGun().equals("smg")){
+    gunshot = minim.loadFile("shot_smg.mp3");
+  }*/
+  
   if (shootDelay == 0){
      if (player.getGun().equals("pistol")){
        shootDelay = 30;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 40 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
-       canShoot = false;
-       gunshot = minim.loadFile("shot_pistol.mp3");
-       gunshot.play();
-       gunshot.rewind();
+       //canShoot = false;
+       gunshot1.play();
+       gunshot1.rewind();
      }
      if (player.getGun().equals("shotgun")){
         shootDelay = 60;
@@ -300,19 +321,18 @@ void draw(){
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));     
         player.setAmmo(player.getAmmo()-3);
-        canShoot = false;    
-         gunshot = minim.loadFile("shot_shotgun.mp3");
-         gunshot.play();
-         gunshot.rewind();     
+        //canShoot = false;             
+         gunshot2.play();
+         gunshot2.rewind();     
      }
      if (player.getGun().equals("smg")){
        shootDelay = 15;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 20 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
        canShoot = false;   
-       gunshot = minim.loadFile("shot_smg.mp3");
-         gunshot.play();
-         gunshot.rewind();     
+       
+         gunshot3.play();
+         gunshot3.rewind();     
      }
      if (player.getGun().equals("sniperRifle")){
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 60 , 2 ));       

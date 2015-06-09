@@ -9,7 +9,7 @@ public class Player extends Units{
     
     public Player(){
     super(100, 800 ,225 , 5 , 5 , 20 , 50);
-    gun = "shotgun";
+    gun = "pistol";
     money = 1000;
     dead = false;
     if (gun.equals("pistol")){
