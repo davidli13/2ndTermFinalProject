@@ -42,3 +42,7 @@ The Last Stand (clone) - Zombie tower defense using guns
 - different gun rate of fire
 - zombie walking animations
 - gunfire sounds
+
+6/8/15
+- death animations
+- resize models
