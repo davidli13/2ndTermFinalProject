@@ -37,7 +37,7 @@ void setup(){
    sniperRifle = loadImage("sniperrifle.png");
    assaultRifle = loadImage("assaultrifle.png");
    minigun = loadImage("minigun.png");   
-   shop = loadImage("shop.png"); 
+   //shop = loadImage("shop.png"); 
    inShop = false;
    inRound = true;
    minim = new Minim(this);
