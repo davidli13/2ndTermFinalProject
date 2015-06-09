@@ -1,5 +1,4 @@
-public class Units
-{
+public class Units{
   public int health;
   public int xcor;
   public int ycor;

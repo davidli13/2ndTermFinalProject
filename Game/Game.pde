@@ -44,7 +44,7 @@ void setup(){
    gunshot1 = minim.loadFile("shot_pistol.mp3");
    gunshot2 = minim.loadFile("shot_shotgun.mp3");
    gunshot3 = minim.loadFile("shot_smg.mp3");
-   deadTimer = 179;
+   deadTimer = 150;
    deadz = loadImage("d0.png");
 }
 
@@ -285,9 +285,17 @@ void draw(){
           deadz = loadImage("d" + (deadTimer / 30) + ".png");
           image(deadz, e.getXCor(), e.getYCor());
         }*/        
-     }                  
+     }       
   }
-  enemy.removeAll(removeEnemy);
+  deadTimer -= 1;
+  if (deadTimer == 0){
+    enemy.removeAll(removeEnemy);
+    deadTimer = 140;
+  }
+  
+  
+  
+  
    
   if (mousePressed == true){
      shootDelay -= 1; 
