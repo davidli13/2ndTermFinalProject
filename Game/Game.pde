@@ -297,7 +297,7 @@ void draw(){
   
   
    
-  if (mousePressed == true){
+  if (mousePressed == true && player.getAmmo() > 0){
      shootDelay -= 1; 
      //60 = 1 second;
   }
@@ -326,7 +326,7 @@ void draw(){
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));     
-        player.setAmmo(player.getAmmo()-3);
+        player.setAmmo(player.getAmmo()-1);
         canShoot = false;   
         cooldown = false;        
         gunshot2.play();
@@ -354,8 +354,7 @@ void draw(){
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 ,40 , 40 , 2 ));       
        player.setAmmo(player.getAmmo()-1);
        canShoot = false;       
-       gunshot1.play();
-       gunshot1.rewind();       
+      
      }
      if (player.getGun().equals("minigun")){
        shootDelay = 3;
@@ -373,18 +372,19 @@ void draw(){
   
 //reload  
   int passedTime = 0;
-  if (player.getAmmo() <= 0){    
-      shootDelay = 99999; 
-      reload = true;     
-  }
   
-  if (reload){
-        passedTime = millis() - savedReloadTime;   
-     if (passedTime > reloadTime){
-        player.setAmmo(player.getMaxClip());
-        savedReloadTime = millis();        
-        reload = false;
-        shootDelay = 10;
+  if (player.getAmmo() <= 0){
+     reload = true; 
+  } else if (player.getAmmo() == 1){
+     player.setSavedReloadTime(millis());       
+  }
+    
+  
+  if (reload){      
+     passedTime = millis() - player.getSavedReloadTime();   
+     if (passedTime > player.getReloadTime()){
+        player.setAmmo(player.getMaxClip());      
+        reload = false;      
      }
   }
   
@@ -399,6 +399,8 @@ void draw(){
         }
     }
   }
+  
+//Fire rate  
   
   int passedFireRate = millis() - player.getSavedFireRate();
    if( passedFireRate > player.getFiredRate() ){

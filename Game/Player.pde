@@ -10,7 +10,7 @@ public class Player extends Units{
     
     public Player(){
     super(100, 800 ,225 , 5 , 5 , 20 , 50);
-    gun = "minigun";
+    gun = "pistol";
     savedReloadTime = millis();
     money = 1500;
     dead = false;
@@ -23,16 +23,16 @@ public class Player extends Units{
     }
     if (gun.equals("shotgun")){
        damage = 5; 
-       ammo = 18;  
-       maxClip = 18;
+       ammo = 6;  
+       maxClip = 6;
        fireRate = 1000;
        reloadTime = 5000;
     }
     if (gun.equals("smg")){
-       damage = 3;
+       damage = 2;
        ammo = 30;
        maxClip = 30;
-       reloadTime = 3000; 
+       reloadTime = 4000; 
     }
     if (gun.equals("sniperRifle")){
        damage = 15;
