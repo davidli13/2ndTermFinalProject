@@ -2,7 +2,7 @@ import ddf.minim.*;
 Player player;
 ArrayList<Bullets> bullets;
 ArrayList<Enemy> enemy;
-boolean canShoot;
+boolean canShoot, cooldown;
 float canShootCounter;
 boolean isUp, isDown, isLeft, isRight, isSpace, isSpaceReleased;
 boolean reload;
@@ -314,48 +314,55 @@ void draw(){
     gunshot = minim.loadFile("shot_smg.mp3");
   }*/
   
-  if (shootDelay == 0){
+  if (canShoot){
      if (player.getGun().equals("pistol")){
-       shootDelay = 30;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 , 40 , 40 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
-       //canShoot = false;
+       canShoot = false;
+       cooldown = false;
        gunshot1.play();
        gunshot1.rewind();
-     }
-     if (player.getGun().equals("shotgun")){
-        shootDelay = 60;
+     } else if (player.getGun().equals("shotgun")){
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));       
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 50 , 50 , 40 , 1 ));     
         player.setAmmo(player.getAmmo()-3);
-        //canShoot = false;             
-         gunshot2.play();
-         gunshot2.rewind();     
+        canShoot = false;   
+        cooldown = false;        
+        gunshot2.play();
+        gunshot2.rewind();    
+     } else if (player.getGun().equals("sniper")){
+        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 60 , 2 ));          
+        player.setAmmo(player.getAmmo()-1);
+        canShoot = false;   
+        cooldown = false;          
      }
+  }
+  
+  if (shootDelay == 0){
      if (player.getGun().equals("smg")){
-       shootDelay = 15;
+       shootDelay = 5;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 20 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
        canShoot = false;   
        
          gunshot3.play();
          gunshot3.rewind();     
-     }
-     if (player.getGun().equals("sniperRifle")){
-       bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 60 , 2 ));       
-       player.setAmmo(player.getAmmo()-1);
-       canShoot = false;       
-     }     
+     }  
      if (player.getGun().equals("assaultRifle")){
+       shootDelay = 10;;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 40 ,40 , 40 , 2 ));       
        player.setAmmo(player.getAmmo()-1);
        canShoot = false;       
+       gunshot1.play();
+       gunshot1.rewind();       
      }
      if (player.getGun().equals("minigun")){
+       shootDelay = 3;
        bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 60 , 1 ));       
        player.setAmmo(player.getAmmo()-1);
        canShoot = false;       
+  
      }     
      
   } 
@@ -374,10 +381,10 @@ void draw(){
   if (reload){
         passedTime = millis() - savedReloadTime;   
      if (passedTime > reloadTime){
-        player.setAmmo(12);
+        player.setAmmo(player.getMaxClip());
         savedReloadTime = millis();        
         reload = false;
-        shootDelay = 1;
+        shootDelay = 10;
      }
   }
   
@@ -392,6 +399,12 @@ void draw(){
         }
     }
   }
+  
+  int passedFireRate = millis() - player.getSavedFireRate();
+   if( passedFireRate > player.getFiredRate() ){
+       cooldown = true;
+       player.setSavedFireRate(millis());    
+    }
   
 
 
@@ -416,7 +429,7 @@ void draw(){
 
 
 void mousePressed(){         
-    if (player.getAmmo() > 0 && reload == false){  
+    if (player.getAmmo() > 0 && reload == false && cooldown == true){  
       canShoot = true;
     }
 }
