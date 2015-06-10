@@ -46,3 +46,9 @@ The Last Stand (clone) - Zombie tower defense using guns
 6/8/15
 - death animations
 - resize models
+
+
+6/9/15
+- Added fire rates
+- guns are now either semi automatic or automatic
+- fixed reload 
