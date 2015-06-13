@@ -260,6 +260,12 @@ void draw(){
   
   if (proceed){
      night ++;
+     if (night == 2) {
+       numSpawn = 5;
+     } else if (night == 3){
+        numSpawn = 10; 
+     }
+     
      inShop = false;
      inRound = true;
      proceed = false;
@@ -411,7 +417,7 @@ void draw(){
         cooldown = false;        
         gunshot2.play();
         gunshot2.rewind();    
-     } else if (player.getGun().equals("sniper")){
+     } else if (player.getGun().equals("sniperRifle")){
         bullets.add(new Bullets(player.getXCor() + (player.getWidth() / 2), player.getYCor() + (player.getHeight()/2), 60 , 60 , 60 , 2 ));          
         player.setAmmo(player.getAmmo()-1);
         canShoot = false;   
@@ -456,8 +462,16 @@ void draw(){
           savedSpawnTime = millis();          
       }
     }     
-  } else if (night == 2){ 
-      numSpawn = 5;   
+  } else if (night == 2){   
+      spawnTime = (int) random(5000) + 1000;
+      if (spawn){
+        int spawnPassedTime = millis() - savedSpawnTime;   
+        if (spawnPassedTime > spawnTime){
+            spawnEnemy();  
+            savedSpawnTime = millis();          
+        }
+      }
+  } else if (night == 3){   
       spawnTime = (int) random(5000) + 1000;
       if (spawn){
         int spawnPassedTime = millis() - savedSpawnTime;   
@@ -471,6 +485,7 @@ void draw(){
   fill(255,255,255);
   text("" + numSpawn, 100, 200);
   
+//After round completed  
   if (numSpawn == 0 && allEnemiesDead() == true ){
      textAlign(CENTER);
      textSize(40);
@@ -480,7 +495,6 @@ void draw(){
      if (waitPassedTime > waitTime){
         inRound = false;
         inShop = true;
-        savedWaitTime = millis();
      }
   } else if (numSpawn == 1 && player.getAmmo() >= 1){
      savedWaitTime = millis();   
