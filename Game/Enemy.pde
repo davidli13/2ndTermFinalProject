@@ -7,15 +7,87 @@ public class Enemy extends Units{
    PImage z;
    PImage d;
    public Enemy(){
-      super( 10 , 0 , (int) random(250) + 100, 1 , 0, 45 , 60);
-      damage = 1;
+      super( 20 , 0 , (int) random(250) + 100, 1 , 0, 45 , 60);
+      damage = 2;
       savedAttackTime = millis();
       attackTime = 2000;
       switchDelay = 79;
       deathTimer = 119;
       z = loadImage("z0.png");
       d = loadImage("d0.png");
-   }      
+   }
+
+  public Enemy(int health, int xcor, int ycor, int xspeed, int yspeed, int width, int height)
+  {
+    this.health = health;
+    this.xcor = xcor;
+    this.ycor = ycor;
+    this.xspeed = xspeed;
+    this.yspeed = yspeed;
+    this.width = width;
+    this.height = height;    
+  }   
+   
+   public class runner extends Enemy{
+      public runner(){
+        super(  10 , 0 , (int) random(250) + 100, 3 , 0 , 35 , 70);
+        damage = 1;
+        attackTime = 1500;   
+      }   
+      
+      public void display(){
+         if (getHealth() > 0){
+            fill(255,0,0);
+            rect(getXCor(),getYCor(),getWidth(),getHeight());            
+         }
+      }
+   }
+   
+   public class armed extends Enemy{
+     
+     public armed(){
+       super( 15 , 0 , (int) random(250) + 100 , 1 , 0 , 45 , 60);  
+       damage = 3;
+       attackTime = 1500;
+     }
+     
+     public void display(){
+         if (getHealth() > 0){
+            fill(255,0,0);
+            rect(getXCor(),getYCor(),getWidth(),getHeight());            
+         }
+      }     
+   }
+   
+   public class exploder extends Enemy{
+      public exploder(){
+        super( 30 , 0 , (int) random(250) + 100, 1 , 0 , 60 , 70); 
+        damage = 2;
+        attackTime = 3000;
+      }
+      
+      public void display(){
+         if (getHealth() > 0){
+            fill(255,0,0);
+            rect(getXCor(),getYCor(),getWidth(),getHeight());            
+         }
+      }      
+   }
+   
+   public class abomination extends Enemy{
+     
+      public abomination(){
+        super( 50 , 0 , (int) random(250) + 100, 1 , 0 , 80 , 90);
+        damage = 5;
+        attackTime = 2000;
+      }
+      public void display(){
+         if (getHealth() > 0){
+            fill(255,0,0);
+            rect(getXCor(),getYCor(),getWidth(),getHeight());            
+         }
+      }      
+   }
    
    public int getDamage(){
       return damage; 
