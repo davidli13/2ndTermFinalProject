@@ -18,6 +18,13 @@ Minim minim;
 AudioPlayer gunshot1, gunshot2, gunshot3;
 int deadTimer;
 PImage deadz;
+int night = 1;
+int numSpawn, spawnTime, savedSpawnTime;
+boolean spawn;
+int waitTime, savedWaitTime;
+boolean smgPurchased, shotgunPurchased, sniperRiflePurchased, assaultRiflePurchased, minigunPurchased; 
+boolean proceed;
+boolean clicked, released;
 void setup(){
    background(255);
    size(1000,450);
@@ -37,7 +44,7 @@ void setup(){
    sniperRifle = loadImage("sniperrifle.png");
    assaultRifle = loadImage("assaultrifle.png");
    minigun = loadImage("minigun.png");   
-   //shop = loadImage("shop.png"); 
+   shop = loadImage("shop.png"); 
    inShop = false;
    inRound = true;
    minim = new Minim(this);
@@ -46,38 +53,46 @@ void setup(){
    gunshot3 = minim.loadFile("shot_smg.mp3");
    deadTimer = 150;
    deadz = loadImage("d0.png");
+   night = 1; 
+   if (night == 1) numSpawn = 3;  
+   spawnTime = 0;
+   savedSpawnTime = millis();
+   spawn = false;
+   waitTime = 5000;   
 }
 
 void draw(){
   
 // shop mode  
   if (inShop){
+   cursor();
+   cursor(HAND);
    background(255);
    image(shop,0,0);
    fill(0,255,0);  
-   image(smg,0,0); 
-   text("$100",150, 50);
+   image(smg,0,0);
+   text("$100",160, 50);
    image(shotgun,0,90);
-   text("$500",150, 130);   
-   image(sniperRifle,0,180);
-   text("$1000",150, 220);       
+   text("$500",160, 130);   
+   image(sniperRifle,0,180); 
+   text("$1000",170, 220);       
    image(assaultRifle,0,265);
-   text("$2000",150, 310);    
-   image(minigun,0,350); 
-   text("$5000",150, 400);  
+   text("$2000",170, 310);    
+   image(minigun,0,350);   
+   text("$5000",165, 400);  
 
 
    
    textSize(25);
    fill(255,255,0);
    text("Damage :", 400, 50);
-   text("Clip Size :", 400, 150);
-   text("Shots/sec :" , 400, 250);
-   text("Reload Time :" , 400, 350);
+   text("Clip Size :", 400, 110);
+   text("Shots/sec :" , 400, 170);
+   text("Reload Time :" , 400, 230);
 
     textSize(40); 
     fill(50,255,50);
-    text("$"+player.getMoney(), 740, 50);
+    text("$"+player.getMoney(), 790, 50);
 
    
    textSize(25);
@@ -86,89 +101,145 @@ void draw(){
      show1 = true; show2= false; show3 = false; show4 = false; show5 = false;
    } 
    if (show1){
-     text("3" , 530, 50);
-     text("30" , 540, 150);
-     text("5" , 560, 250);
-     text("5.00" , 590, 350);  
+     clicked = false;
+     text("3" , 500, 50);
+     text("30" , 510, 110);
+     text("5" , 520, 170);
+     text("5.00" , 530, 230);  
    }
 
    if (overRect(0,90,130,70) && mousePressed){
      show1 = false; show2= true; show3 = false; show4 = false; show5 = false;
    } 
    if (show2){
-     text("5" , 530, 50);
-     text("18" , 540, 150);
-     text("1" , 560, 250);
-     text("5.00" , 590, 350);  
+     clicked = false;
+     text("5" , 500, 50);
+     text("18" , 510, 110);
+     text("1" , 520, 170);
+     text("5.00" , 530, 230);  
    }  
    
    if (overRect(0,180,130,70) && mousePressed){
      show1 = false; show2= false; show3 = true; show4 = false; show5 = false;
    } 
    if (show3){
-     text("10" , 530, 50);
-     text("8" , 540, 150);
-     text("2" , 560, 250);
-     text("6.00" , 590, 350);  
+     clicked = false;
+     text("10" , 500, 50);
+     text("8" , 510, 110);
+     text("2" , 520, 170);
+     text("6.00" , 530, 230);  
    }    
   
    if (overRect(0,265,130,70) && mousePressed){
      show1 = false; show2= false; show3 = false; show4 = true; show5 = false;
    } 
    if (show4){
-     text("8" , 530, 50);
-     text("20" , 540, 150);
-     text("3" , 560, 250);
-     text("5.00" , 590, 350);  
+     clicked = false;
+     text("8" , 500, 50);
+     text("20" , 510, 110);
+     text("3" , 520, 170);
+     text("5.00" , 530, 230);  
    }
   
    if (overRect(0,310,130,70) && mousePressed){
      show1 = false; show2= false; show3 = false; show4 = false; show5 = true;
    } 
    if (show5){
-     text("5" , 530, 50);
-     text("200" , 540, 150);
-     text("6" , 560, 250);
-     text("8.00" , 590, 350);  
+     clicked = false;
+     text("5" , 500, 50);
+     text("200" , 510, 110);
+     text("6" , 520, 170);
+     text("8.00" , 530, 230);  
    }   
    
 
    textSize(30);
    fill(255,100,100);
-   text("Purchase", 750, 150);
+   text("Purchase", 810, 150);
+
    textSize(30);
    fill(255,255,255);
-   text("Proceed", 860 , 420);
+   text("Proceed", 910 , 420);
    
-   if (overRect(740, 120, 140, 50) && show1 == true && mousePressed){
+   
+   if (smgPurchased){
       if (player.getMoney() >= 100){
         player.setMoney(player.getMoney() - 100);
         player.setGun("smg");
-      } 
-   }
-   if (overRect(740, 120, 140, 50) && show2 == true && mousePressed){
+        player.setDamage(3);
+        player.setAmmo(30);
+        player.setMaxClip(30);
+        player.setReloadTime(3000);
+        smgPurchased = false;
+        clicked = false;
+      }        
+   } else if (shotgunPurchased){
       if (player.getMoney() >= 500){
         player.setMoney(player.getMoney() - 500);
         player.setGun("shotgun");
-      } 
-   }
-   if (overRect(740, 120, 140, 50) && show3 == true && mousePressed){
+        player.setDamage(4);
+        player.setAmmo(6);
+        player.setMaxClip(6);
+        player.setFireRate(1500);
+        player.setReloadTime(4000);
+                
+        shotgunPurchased = false;
+        clicked = false;
+      }        
+   } else if (sniperRiflePurchased){
       if (player.getMoney() >= 1000){
         player.setMoney(player.getMoney() - 1000);
         player.setGun("sniperRifle");
-      } 
-   }
-   if (overRect(740, 120, 140, 50) && show4 == true && mousePressed){
+        player.setDamage(15);
+        player.setAmmo(8);
+        player.setMaxClip(8);
+        player.setFireRate(1500);
+        player.setReloadTime(5000);       
+        sniperRiflePurchased = false;
+        clicked = false;
+      }        
+   } else if (assaultRiflePurchased){
       if (player.getMoney() >= 2000){
         player.setMoney(player.getMoney() - 2000);
         player.setGun("assaultRifle");
-      } 
-   }
-   if (overRect(740, 120, 140, 50) && show5 == true && mousePressed){
+        player.setDamage(8);
+        player.setAmmo(20);
+        player.setMaxClip(20);
+        player.setReloadTime(4000);        
+        assaultRiflePurchased = false;
+        clicked = false;
+      }        
+   } else if (minigunPurchased){
       if (player.getMoney() >= 5000){
         player.setMoney(player.getMoney() - 5000);
         player.setGun("minigun");
-      } 
+        player.setDamage(5);
+        player.setAmmo(200);
+        player.setMaxClip(200);
+        player.setReloadTime(8000);        
+        minigunPurchased = false;
+        clicked = false;
+      }        
+   }
+   
+   if (mousePressed && released){
+      clicked = true;
+      released = false; 
+   }
+   if (overRect(740, 120, 140, 50) && show1 == true && clicked){
+      smgPurchased = true;
+   }
+   if (overRect(740, 120, 140, 50) && show2 == true && clicked){
+      shotgunPurchased = true;
+   }
+   if (overRect(740, 120, 140, 50) && show3 == true && clicked){
+      sniperRiflePurchased = true;
+   }
+   if (overRect(740, 120, 140, 50) && show4 == true && clicked){
+      assaultRiflePurchased = true;
+   }
+   if (overRect(740, 120, 140, 50) && show5 == true && clicked){
+      minigunPurchased = true;
    }  
   
   
@@ -187,14 +258,21 @@ void draw(){
   }
   
   
-  if (overRect(860,390, 130, 150) && mousePressed){
+  if (proceed){
+     night ++;
      inShop = false;
      inRound = true;
-     
+     proceed = false;
+     clicked = false; 
+  }
+
+  if (overRect(860,390, 130, 150) && mousePressed){
+     proceed = true;
+       
   }
 
 
-  }
+  } else 
   
   
 //game mode  
@@ -204,10 +282,10 @@ void draw(){
   image(bg,0,0);
   fill(255,0,0);
   textSize(20);    
-  text(player.getHealth() + "", 950, 405);
+  text(player.getHealth() + "", 955, 405);
   fill(255,255,0);
   textSize(20);
-  text(player.getAmmo() + "", 950 , 435);
+  text(player.getAmmo() + "", 955 , 435);
   if (player.getHealth() > 0){
         player.display(); 
   }
@@ -248,7 +326,8 @@ void draw(){
     for (Enemy e: enemy){
            for (Bullets b: bullets){
               if ( ( ( b.getXCor() + (b.getWidth()/2) >= e.getXCor() ) && ( b.getXCor() + (b.getWidth()/2) <= e.getXCor() + e.getWidth())
-              && ( b.getYCor() + (b.getHeight() / 2) >= e.getYCor()) && ( b.getYCor() + ( b.getHeight()/2 ) <= e.getYCor() + e.getHeight()))){
+              && ( b.getYCor() + (b.getHeight() / 2) >= e.getYCor()) && ( b.getYCor() + ( b.getHeight()/2 ) <= e.getYCor() + e.getHeight())) 
+              && e.getHealth() > 0){
                  
                e.setHealth(e.getHealth() - player.getDamage());
                removeBullets2.add(b); 
@@ -274,22 +353,23 @@ void draw(){
           
           
   
-// Remove Dead enemies  
+// Remove enemies  
   ArrayList<Enemy> removeEnemy = new ArrayList<Enemy>();
-  for (Enemy e: enemy){
-     if (e.getHealth() <= 0){
-        removeEnemy.add(e);
+  if (inShop){
+    for (Enemy e: enemy){
+          removeEnemy.add(e);
         
         /*if (deadTimer > 0){
           deadTimer -= 1;
           deadz = loadImage("d" + (deadTimer / 30) + ".png");
           image(deadz, e.getXCor(), e.getYCor());
-        }*/        
-     }       
+        }*/               
+    }
+  enemy.removeAll(removeEnemy);    
   }
+
   deadTimer -= 1;
   if (deadTimer == 0){
-    enemy.removeAll(removeEnemy);
     deadTimer = 140;
   }
   
@@ -366,12 +446,55 @@ void draw(){
      
   } 
 
-  if (millis() % 100 < 3){
-     enemy.add(new Enemy()); 
+// zombie spawn
+  if (night == 1){    
+    spawnTime = (int) random(3000) + 1000;
+    if (spawn){
+      int spawnPassedTime = millis() - savedSpawnTime;   
+      if (spawnPassedTime > spawnTime){
+          spawnEnemy();  
+          savedSpawnTime = millis();          
+      }
+    }     
+  } else if (night == 2){ 
+      numSpawn = 5;   
+      spawnTime = (int) random(5000) + 1000;
+      if (spawn){
+        int spawnPassedTime = millis() - savedSpawnTime;   
+        if (spawnPassedTime > spawnTime){
+            spawnEnemy();  
+            savedSpawnTime = millis();          
+        }
+      }
   }
   
+  fill(255,255,255);
+  text("" + numSpawn, 100, 200);
+  
+  if (numSpawn == 0 && allEnemiesDead() == true ){
+     textAlign(CENTER);
+     textSize(40);
+     fill(255,0,0);      
+     text("You survived night " + night, 500, 225);       
+     int waitPassedTime = millis() - savedWaitTime;
+     if (waitPassedTime > waitTime){
+        inRound = false;
+        inShop = true;
+        savedWaitTime = millis();
+     }
+  } else if (numSpawn == 1 && player.getAmmo() >= 1){
+     savedWaitTime = millis();   
+  }  
+  
+  if (numSpawn > 0){
+     spawn = true; 
+  } else {
+     spawn = false; 
+  }
+  
+
+  
 //reload  
-  int passedTime = 0;
   
   if (player.getAmmo() <= 0){
      reload = true; 
@@ -381,7 +504,7 @@ void draw(){
     
   
   if (reload){      
-     passedTime = millis() - player.getSavedReloadTime();   
+     int passedTime = millis() - player.getSavedReloadTime();   
      if (passedTime > player.getReloadTime()){
         player.setAmmo(player.getMaxClip());      
         reload = false;      
@@ -403,7 +526,7 @@ void draw(){
 //Fire rate  
   
   int passedFireRate = millis() - player.getSavedFireRate();
-   if( passedFireRate > player.getFiredRate() ){
+   if( passedFireRate > player.getFireRate() ){
        cooldown = true;
        player.setSavedFireRate(millis());    
     }
@@ -436,7 +559,24 @@ void mousePressed(){
     }
 }
 
+void mouseReleased(){
+   released = true; 
+}
 
+public void spawnEnemy(){  
+  enemy.add(new Enemy());  
+  numSpawn --;
+  spawn = false;
+} 
+
+public boolean allEnemiesDead(){
+   for (Enemy e: enemy){
+      if (e.getHealth() > 0){
+         return false; 
+      }
+   }
+   return true; 
+}
 
 public void processKeys(){
    if (isUp){

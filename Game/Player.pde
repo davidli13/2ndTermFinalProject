@@ -6,11 +6,11 @@ public class Player extends Units{
     private int damage;  
     private int reloadTime, savedReloadTime;
     private int fireRate, savedFireRate;
-    private int accuracy;
+    
     
     public Player(){
     super(100, 800 ,225 , 5 , 5 , 20 , 50);
-    gun = "pistol";
+    gun = "smg";
     savedReloadTime = millis();
     money = 1500;
     dead = false;
@@ -25,11 +25,11 @@ public class Player extends Units{
        damage = 5; 
        ammo = 6;  
        maxClip = 6;
-       fireRate = 1000;
+       fireRate = 5000;
        reloadTime = 5000;
     }
     if (gun.equals("smg")){
-       damage = 2;
+       damage = 3;
        ammo = 30;
        maxClip = 30;
        reloadTime = 4000; 
@@ -84,8 +84,16 @@ public class Player extends Units{
        return damage; 
     }
     
+    public void setDamage(int d){
+       damage = d; 
+    }
+    
     public int getReloadTime(){
        return reloadTime; 
+    }
+    
+    public void setReloadTime(int time){
+       reloadTime = time; 
     }
     
    public void setSavedReloadTime(int time){
@@ -96,9 +104,13 @@ public class Player extends Units{
       return savedReloadTime; 
    }
    
-    public int getFiredRate(){
+   public int getFireRate(){
        return fireRate; 
-    }
+   }
+    
+   public void setFireRate(int rate){
+      fireRate = rate;
+   } 
     
    public void setSavedFireRate(int time){
        savedFireRate = time;
@@ -110,6 +122,10 @@ public class Player extends Units{
    
    public int getMaxClip(){
       return maxClip; 
+   }
+   
+   public void setMaxClip(int clip){
+      maxClip = clip; 
    }
    
     
