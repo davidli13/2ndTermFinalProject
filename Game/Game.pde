@@ -257,6 +257,10 @@ void draw(){
      text("equipped", 250 , 400);      
   }
   
+    if (overRect(860,390, 130, 150) && mousePressed){
+     proceed = true;
+       
+  }
   
   if (proceed){
      night ++;
@@ -272,10 +276,7 @@ void draw(){
      clicked = false; 
   }
 
-  if (overRect(860,390, 130, 150) && mousePressed){
-     proceed = true;
-       
-  }
+
 
 
   } else 
