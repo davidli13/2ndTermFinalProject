@@ -362,22 +362,25 @@ void draw(){
   
 // Remove enemies  
   ArrayList<Enemy> removeEnemy = new ArrayList<Enemy>();
-  if (inShop){
+  //if (inShop){
     for (Enemy e: enemy){
+          if (e.getHealth() <= 0){
           removeEnemy.add(e);
         
         /*if (deadTimer > 0){
           deadTimer -= 1;
           deadz = loadImage("d" + (deadTimer / 30) + ".png");
           image(deadz, e.getXCor(), e.getYCor());
-        }*/               
+        }*/          
+          }     
     }
-  enemy.removeAll(removeEnemy);    
-  }
+       
+  //}
 
   deadTimer -= 1;
   if (deadTimer == 0){
     deadTimer = 140;
+    enemy.removeAll(removeEnemy);  
   }
   
   
