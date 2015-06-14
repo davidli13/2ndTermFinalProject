@@ -367,6 +367,8 @@ void draw(){
   
   processKeys();
   
+  
+  // Displays bullets
   for (Bullets b: bullets){
      b.display(); 
      b.setXCor(b.getXCor() + cos(b.getRotation()/180 * PI) * b.getXSpeed());
@@ -400,7 +402,7 @@ void draw(){
     bullets.removeAll(removeBullets2); 
             
     
-    
+// Displays Enemies, attacks when XCor is at barricade    
   for (Enemy e: enemy){
      e.display();
      if (e.getXCor()<= 720){
@@ -649,6 +651,7 @@ void draw(){
         }
     }
   }
+  
   
 //Fire rate  
   
