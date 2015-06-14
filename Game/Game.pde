@@ -81,13 +81,13 @@ void draw(){
    image(shop,0,0);
    fill(0,255,0);  
    image(smg,0,0);
-   text("$750",160, 50);
+   text("$600",160, 50);
    image(shotgun,0,90);
-   text("$1500",160, 130);   
+   text("$1200",160, 130);   
    image(sniperRifle,0,180); 
-   text("$2500",170, 220);       
+   text("$2000",170, 220);       
    image(assaultRifle,0,265);
-   text("$3500",170, 310);    
+   text("$3000",170, 310);    
    image(minigun,0,350);   
    text("$5000",165, 400);  
    
@@ -121,8 +121,8 @@ void draw(){
    } 
    if (show2){
      clicked = false;
-     text("5" , 500, 50);
-     text("18" , 510, 110);
+     text("4" , 500, 50);
+     text("6" , 510, 110);
      text("1" , 520, 170);
      text("5.00" , 530, 230);  
    }  
@@ -135,7 +135,7 @@ void draw(){
      text("10" , 500, 50);
      text("8" , 510, 110);
      text("2" , 520, 170);
-     text("6.00" , 530, 230);  
+     text("5.00" , 530, 230);  
    }    
   
    if (overRect(0,265,130,70) && mousePressed){
@@ -163,7 +163,12 @@ void draw(){
 
    textSize(30);
    fill(255,100,100);
-   text("Purchase", 810, 150);
+   text("Purchase Gun", 810, 150);   
+   text("Repair Barricade", 810 , 300);
+   
+   textSize(40);
+   fill(255,0,0);
+   text(""+ player.getHealth(), 810 , 250);
 
    textSize(30);
    fill(255,255,255);
@@ -171,19 +176,19 @@ void draw(){
    
    
    if (smgPurchased){
-      if (player.getMoney() >= 100){
-        player.setMoney(player.getMoney() - 100);
+      if (player.getMoney() >= 600){
+        player.setMoney(player.getMoney() - 600);
         player.setGun("smg");
         player.setDamage(3);
         player.setAmmo(30);
         player.setMaxClip(30);
-        player.setReloadTime(3000);
+        player.setReloadTime(4000);
         smgPurchased = false;
         clicked = false;
       }        
    } else if (shotgunPurchased){
-      if (player.getMoney() >= 500){
-        player.setMoney(player.getMoney() - 500);
+      if (player.getMoney() >= 1200){
+        player.setMoney(player.getMoney() - 1200);
         player.setGun("shotgun");
         player.setDamage(4);
         player.setAmmo(6);
@@ -195,8 +200,8 @@ void draw(){
         clicked = false;
       }        
    } else if (sniperRiflePurchased){
-      if (player.getMoney() >= 1000){
-        player.setMoney(player.getMoney() - 1000);
+      if (player.getMoney() >= 2000){
+        player.setMoney(player.getMoney() -2000);
         player.setGun("sniperRifle");
         player.setDamage(15);
         player.setAmmo(8);
@@ -207,13 +212,13 @@ void draw(){
         clicked = false;
       }        
    } else if (assaultRiflePurchased){
-      if (player.getMoney() >= 2000){
-        player.setMoney(player.getMoney() - 2000);
+      if (player.getMoney() >= 3000){
+        player.setMoney(player.getMoney() - 3000);
         player.setGun("assaultRifle");
         player.setDamage(8);
         player.setAmmo(20);
         player.setMaxClip(20);
-        player.setReloadTime(4000);        
+        player.setReloadTime(5000);        
         assaultRiflePurchased = false;
         clicked = false;
       }        
@@ -234,21 +239,27 @@ void draw(){
       clicked = true;
       released = false; 
    }
-   if (overRect(740, 120, 140, 50) && show1 == true && clicked){
+   if (overRect(710, 120, 200, 50) && show1 == true && clicked){
       smgPurchased = true;
    }
-   if (overRect(740, 120, 140, 50) && show2 == true && clicked){
+   if (overRect(710, 120, 200, 50) && show2 == true && clicked){
       shotgunPurchased = true;
    }
-   if (overRect(740, 120, 140, 50) && show3 == true && clicked){
+   if (overRect(710, 120, 200, 50) && show3 == true && clicked){
       sniperRiflePurchased = true;
    }
-   if (overRect(740, 120, 140, 50) && show4 == true && clicked){
+   if (overRect(710, 120, 200, 50) && show4 == true && clicked){
       assaultRiflePurchased = true;
    }
-   if (overRect(740, 120, 140, 50) && show5 == true && clicked){
+   if (overRect(710, 120, 200, 50) && show5 == true && clicked){
       minigunPurchased = true;
    }  
+   
+   if (overRect(680, 270, 270 , 50) && mousePressed && player.getHealth() < 100){
+      player.setMoney(player.getMoney() - 1);
+      player.setHealth(player.getHealth() + 1);
+   }   
+
   
   
   fill(100,100,255);
