@@ -708,7 +708,8 @@ public void spawnTimer(){
 }
 
 public void spawnEnemy2(){  
-  enemy.add(new Enemy(). new runner());  
+  Enemy e = new Enemy();
+  enemy.add(e. new runner());  
   numSpawn2 --;
   spawn2 = false;
 }

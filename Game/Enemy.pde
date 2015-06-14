@@ -9,7 +9,7 @@ public class Enemy extends Units{
    PImage d;
    public Enemy(){
       super( 20 , 0 , (int) random(250) + 100, 1 , 0, 45 , 60);
-      damage = 2;
+      damage = 1;
       savedAttackTime = millis();
       attackTime = 2000;
       switchDelay = 79;
@@ -32,10 +32,9 @@ public class Enemy extends Units{
    public class runner extends Enemy{
       public runner(){
         super(  10 , 0 , (int) random(250) + 100, 2 , 0 , 35 , 70);
-        damage = 1;
-        attackTime = 1500;  
-        attacking = false;
-        savedAttackTime = millis();        
+        super.damage = 1;
+        super.attackTime = 2000;  
+        super.savedAttackTime = millis();        
       }   
       
       public void display(){
@@ -50,10 +49,9 @@ public class Enemy extends Units{
      
      public armed(){
        super( 15 , 0 , (int) random(250) + 100 , 1 , 0 , 45 , 60);  
-       damage = 3;
-       attackTime = 1500;
-       savedAttackTime = millis(); 
-       attacking = false;
+       super.damage = 3;
+       super.attackTime = 2000;
+       super.savedAttackTime = millis(); 
      }
      
      public void display(){
@@ -68,9 +66,9 @@ public class Enemy extends Units{
      
       public abomination(){
         super( 50 , 0 , (int) random(250) + 100, 1 , 0 , 80 , 90);
-        damage = 5;
-        attackTime = 2000;
-        savedAttackTime = millis(); 
+        super.damage = 5;
+        super.attackTime = 3000;
+        super.savedAttackTime = millis(); 
         attacking = false;
       }
       public void display(){
