@@ -4,6 +4,7 @@ public class Enemy extends Units{
    private boolean attacking;
    private int switchDelay;
    private int deathTimer;
+   
    PImage z;
    PImage d;
    public Enemy(){

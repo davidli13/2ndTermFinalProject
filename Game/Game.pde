@@ -24,6 +24,7 @@ int numSpawn, numSpawn2, numSpawn3, numSpawn4;
 boolean spawn, spawn2, spawn3, spawn4;
 int waitTime, savedWaitTime;
 boolean smgPurchased, shotgunPurchased, sniperRiflePurchased, assaultRiflePurchased, minigunPurchased; 
+boolean gainMoney;
 boolean proceed;
 boolean clicked, released;
 void setup(){
@@ -80,13 +81,13 @@ void draw(){
    image(shop,0,0);
    fill(0,255,0);  
    image(smg,0,0);
-   text("$100",160, 50);
+   text("$750",160, 50);
    image(shotgun,0,90);
-   text("$500",160, 130);   
+   text("$1500",160, 130);   
    image(sniperRifle,0,180); 
-   text("$1000",170, 220);       
+   text("$2500",170, 220);       
    image(assaultRifle,0,265);
-   text("$2000",170, 310);    
+   text("$3500",170, 310);    
    image(minigun,0,350);   
    text("$5000",165, 400);  
    
@@ -112,7 +113,7 @@ void draw(){
      text("3" , 500, 50);
      text("30" , 510, 110);
      text("5" , 520, 170);
-     text("5.00" , 530, 230);  
+     text("4.00" , 530, 230);  
    }
 
    if (overRect(0,90,130,70) && mousePressed){
@@ -410,14 +411,20 @@ void draw(){
     for (Enemy e: enemy){
           if (e.getHealth() <= 0){
           removeEnemy.add(e);
-        
+          player.setMoney(player.getMoney() + 1);        
         /*if (deadTimer > 0){
           deadTimer -= 1;
           deadz = loadImage("d" + (deadTimer / 30) + ".png");
           image(deadz, e.getXCor(), e.getYCor());
         }*/          
-          }     
+          }
+  
     }
+    
+  
+
+  fill(255,0,0);
+  text("" + player.getMoney(), 100, 100);  
        
   //}
 
