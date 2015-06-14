@@ -275,8 +275,43 @@ void draw(){
      night ++;
      if (night == 2) {
        numSpawn = 5;
+       numSpawn2 = 3;
+       numSpawn3 = 1;
      } else if (night == 3){
-        numSpawn = 10; 
+        numSpawn = 8; 
+        numSpawn2 = 4;
+        numSpawn3 = 2;
+     } else if (night == 4){
+        numSpawn = 5;
+        numSpawn2 = 4; 
+        numSpawn3 = 6;       
+     } else if (night == 5){
+        numSpawn = 6;
+        numSpawn2 = 6;
+        numSpawn3 = 7; 
+     } else if (night == 6){
+        numSpawn = 6;
+        numSpawn2 = 10;
+        numSpawn3 = 3; 
+     } else if (night == 7){       
+        numSpawn = 3;
+        numSpawn2 = 4;
+        numSpawn3 = 9; 
+     } else if (night == 8){
+        numSpawn = 5; 
+        numSpawn2 = 5;
+        numSpawn3 = 5;
+        numSpawn4 = 1;
+     } else if (night == 9){
+        numSpawn = 6;
+        numSpawn2= 2;
+        numSpawn3 = 7;
+        numSpawn4 = 3; 
+     } else if (night == 10){
+        numSpawn = 8;
+        numSpawn2 = 5;
+        numSpawn3 = 10;
+        numSpawn4 = 5; 
      }
      
      inShop = false;
@@ -465,48 +500,70 @@ void draw(){
      
   } 
 
-// zombie spawn
+// zombie round time spawning
   if (night == 1){    
     spawnTime = (int) random(3000) + 1000;
-    spawnTime2 = (int) random( 4000 ) + 2000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
     spawnTime3 = (int) random( 4000 ) + 3000;
-    spawnTime4 = (int) random(5000) + 4000;
-    if (spawn){
-      spawnTimer();
-    }
-    if (spawn2){
-       spawnTimer2(); 
-    }
-    if (spawn2){
-       spawnTimer3(); 
-    }
-    if (spawn2){
-       spawnTimer4(); 
-    }
-    
-    
+    spawnTime4 = (int) random(8000) + 6000;
+    spawnTimerAll();
+        
   } else if (night == 2){   
-      spawnTime = (int) random(5000) + 1000;
-      if (spawn){
-        int spawnPassedTime = millis() - savedSpawnTime;   
-        if (spawnPassedTime > spawnTime){
-            spawnEnemy();  
-            savedSpawnTime = millis();          
-        }
-      }
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;     
+      spawnTimerAll();
   } else if (night == 3){   
-      spawnTime = (int) random(5000) + 1000;
-      if (spawn){
-        int spawnPassedTime = millis() - savedSpawnTime;   
-        if (spawnPassedTime > spawnTime){
-            spawnEnemy();  
-            savedSpawnTime = millis();          
-        }
-      }
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;      
+      spawnTimerAll();
+  } else if (night == 4){   
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;      
+      spawnTimerAll();
+  } else if (night == 5){   
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;     
+      spawnTimerAll();
+  } else if (night == 6){   
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;      
+      spawnTimerAll();
+  } else if (night == 7){   
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;      
+      spawnTimerAll();
+  } else if (night == 8){   
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;      
+      spawnTimerAll();
+  } else if (night == 9){   
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;      
+      spawnTimerAll();
+  } else if (night == 10){   
+    spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 6000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(8000) + 6000;      
+     spawnTimerAll();
   }
   
-  fill(255,255,255);
-  text("" + numSpawn, 100, 200);
   
 //After round completed  
   if (numSpawn == 0 && allEnemiesDead() == true ){
@@ -519,7 +576,7 @@ void draw(){
         inRound = false;
         inShop = true;
      }
-  } else if (numSpawn == 1 && player.getAmmo() >= 1){
+  } else if ((numSpawn == 1 || numSpawn2 == 1 || numSpawn3 == 1 || numSpawn4 == 1) && player.getAmmo() >= 1){
      savedWaitTime = millis();   
   }  
   
@@ -566,8 +623,8 @@ void draw(){
 //zombie attacks barricade  
   for (Enemy e: enemy){  
     if (e.attacking){
-          int passedTime2 = millis() - e.getSavedAttackTime();
-        if( passedTime2 > e.getAttackTime() ){
+          int passedTime = millis() - e.getSavedAttackTime();
+        if( passedTime > e.getAttackTime() ){
           player.setHealth(player.getHealth() - e.getDamage());
           e.attacking = false;
           e.setSavedAttackTime(millis());    
@@ -669,6 +726,21 @@ public void spawnTimer4(){
       spawnEnemy4();  
       savedSpawnTime4 = millis();          
   }
+}
+
+public void spawnTimerAll(){
+    if (spawn){
+      spawnTimer();
+    }
+    if (spawn2){
+       spawnTimer2(); 
+    }
+    if (spawn2){
+       spawnTimer3(); 
+    }
+    if (spawn2){
+       spawnTimer4(); 
+    }  
 }
 
 public boolean allEnemiesDead(){

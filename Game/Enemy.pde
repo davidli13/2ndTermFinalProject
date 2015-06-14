@@ -32,7 +32,8 @@ public class Enemy extends Units{
       public runner(){
         super(  10 , 0 , (int) random(250) + 100, 3 , 0 , 35 , 70);
         damage = 1;
-        attackTime = 1500;   
+        attackTime = 1500;  
+        savedAttackTime = millis();        
       }   
       
       public void display(){
@@ -49,6 +50,7 @@ public class Enemy extends Units{
        super( 15 , 0 , (int) random(250) + 100 , 1 , 0 , 45 , 60);  
        damage = 3;
        attackTime = 1500;
+       savedAttackTime = millis(); 
      }
      
      public void display(){
@@ -65,6 +67,7 @@ public class Enemy extends Units{
         super( 50 , 0 , (int) random(250) + 100, 1 , 0 , 80 , 90);
         damage = 5;
         attackTime = 2000;
+        savedAttackTime = millis(); 
       }
       public void display(){
          if (getHealth() > 0){
