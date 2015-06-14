@@ -19,8 +19,9 @@ AudioPlayer gunshot1, gunshot2, gunshot3;
 int deadTimer;
 PImage deadz;
 int night = 1;
-int numSpawn, spawnTime, savedSpawnTime;
-boolean spawn;
+int spawnTime, savedSpawnTime, spawnTime2, savedSpawnTime2,spawnTime3, savedSpawnTime3, spawnTime4, savedSpawnTime4;
+int numSpawn, numSpawn2, numSpawn3, numSpawn4;
+boolean spawn, spawn2, spawn3, spawn4;
 int waitTime, savedWaitTime;
 boolean smgPurchased, shotgunPurchased, sniperRiflePurchased, assaultRiflePurchased, minigunPurchased; 
 boolean proceed;
@@ -54,10 +55,18 @@ void setup(){
    deadTimer = 150;
    deadz = loadImage("d0.png");
    night = 1; 
-   if (night == 1) numSpawn = 3;  
-   spawnTime = 0;
+   numSpawn = 3;
+   numSpawn2 = 2;
+   numSpawn3 = 1;
+   numSpawn4 = 1;  
    savedSpawnTime = millis();
+   savedSpawnTime2 = millis();
+   savedSpawnTime3 = millis();
+   savedSpawnTime4 = millis();   
    spawn = false;
+   spawn2 = false;
+   spawn3 = false;
+   spawn4 = false;   
    waitTime = 5000;   
 }
 
@@ -80,8 +89,6 @@ void draw(){
    text("$2000",170, 310);    
    image(minigun,0,350);   
    text("$5000",165, 400);  
-
-
    
    textSize(25);
    fill(255,255,0);
@@ -90,9 +97,9 @@ void draw(){
    text("Shots/sec :" , 400, 170);
    text("Reload Time :" , 400, 230);
 
-    textSize(40); 
-    fill(50,255,50);
-    text("$"+player.getMoney(), 790, 50);
+   textSize(40); 
+   fill(50,255,50);
+   text("$"+player.getMoney(), 790, 50);
 
    
    textSize(25);
@@ -262,6 +269,8 @@ void draw(){
        
   }
   
+  
+//Next round spawns  
   if (proceed){
      night ++;
      if (night == 2) {
@@ -459,13 +468,23 @@ void draw(){
 // zombie spawn
   if (night == 1){    
     spawnTime = (int) random(3000) + 1000;
+    spawnTime2 = (int) random( 4000 ) + 2000;
+    spawnTime3 = (int) random( 4000 ) + 3000;
+    spawnTime4 = (int) random(5000) + 4000;
     if (spawn){
-      int spawnPassedTime = millis() - savedSpawnTime;   
-      if (spawnPassedTime > spawnTime){
-          spawnEnemy();  
-          savedSpawnTime = millis();          
-      }
-    }     
+      spawnTimer();
+    }
+    if (spawn2){
+       spawnTimer2(); 
+    }
+    if (spawn2){
+       spawnTimer3(); 
+    }
+    if (spawn2){
+       spawnTimer4(); 
+    }
+    
+    
   } else if (night == 2){   
       spawnTime = (int) random(5000) + 1000;
       if (spawn){
@@ -508,7 +527,22 @@ void draw(){
      spawn = true; 
   } else {
      spawn = false; 
-  }
+  }  
+  if (numSpawn2 > 0){
+     spawn2 = true; 
+  } else {
+     spawn2 = false; 
+  } 
+  if (numSpawn3 > 0){
+     spawn3 = true; 
+  } else {
+     spawn3 = false; 
+  } 
+  if (numSpawn4 > 0){
+     spawn4 = true; 
+  } else {
+     spawn4 = false; 
+  }  
   
 
   
@@ -585,7 +619,57 @@ public void spawnEnemy(){
   enemy.add(new Enemy());  
   numSpawn --;
   spawn = false;
-} 
+}
+
+public void spawnTimer(){
+  int spawnPassedTime = millis() - savedSpawnTime;   
+  if (spawnPassedTime > spawnTime){
+      spawnEnemy();  
+      savedSpawnTime = millis();          
+  }
+}
+
+public void spawnEnemy2(){  
+  enemy.add(new Enemy(). new runner());  
+  numSpawn2 --;
+  spawn2 = false;
+}
+
+public void spawnTimer2(){
+  int spawnPassedTime = millis() - savedSpawnTime2;   
+  if (spawnPassedTime > spawnTime2){
+      spawnEnemy2();  
+      savedSpawnTime2 = millis();          
+  }
+}
+
+public void spawnEnemy3(){  
+  enemy.add(new Enemy(). new armed());  
+  numSpawn3 --;
+  spawn3 = false;
+}
+
+public void spawnTimer3(){
+  int spawnPassedTime = millis() - savedSpawnTime3;   
+  if (spawnPassedTime > spawnTime3){
+      spawnEnemy3();  
+      savedSpawnTime3 = millis();          
+  }
+}
+
+public void spawnEnemy4(){  
+  enemy.add(new Enemy(). new abomination());  
+  numSpawn2 --;
+  spawn2 = false;
+}
+
+public void spawnTimer4(){
+  int spawnPassedTime = millis() - savedSpawnTime4;   
+  if (spawnPassedTime > spawnTime4){
+      spawnEnemy4();  
+      savedSpawnTime4 = millis();          
+  }
+}
 
 public boolean allEnemiesDead(){
    for (Enemy e: enemy){

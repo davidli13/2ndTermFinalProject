@@ -58,22 +58,7 @@ public class Enemy extends Units{
          }
       }     
    }
-   
-   public class exploder extends Enemy{
-      public exploder(){
-        super( 30 , 0 , (int) random(250) + 100, 1 , 0 , 60 , 70); 
-        damage = 2;
-        attackTime = 3000;
-      }
       
-      public void display(){
-         if (getHealth() > 0){
-            fill(255,0,0);
-            rect(getXCor(),getYCor(),getWidth(),getHeight());            
-         }
-      }      
-   }
-   
    public class abomination extends Enemy{
      
       public abomination(){
