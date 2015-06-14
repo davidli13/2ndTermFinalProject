@@ -52,3 +52,13 @@ The Last Stand (clone) - Zombie tower defense using guns
 - Added fire rates
 - guns are now either semi automatic or automatic
 - fixed reload 
+
+6/13/15
+- Added fix barricade in shop
+- Shop and remove zombies fixed
+- Spawn enemies in 10 levels
+
+6/14/15
+- Different zombies
+- balanced guns
+- balanced spawn
