@@ -10,7 +10,7 @@ public class Player extends Units{
     
     public Player(){
     super(100, 800 ,225 , 5 , 5 , 20 , 50);
-    gun = "minigun";
+    gun = "pistol";
     savedReloadTime = millis();
     money = 0;
     dead = false;
